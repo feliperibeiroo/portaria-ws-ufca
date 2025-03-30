@@ -1,0 +1,62 @@
+logging.level.net.ttddyy.dsproxy.listener: debug
+server:
+  error.include-stacktrace: never
+  max-http-header-size: 10000000
+  servlet:
+    context-path: /portaria/api
+
+#hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+spring:
+  jackson.time-zone: America/Sao_Paulo
+  jpa:
+    show-sql: true
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USR}
+    password: ${DB_PWD}
+  application.name: portaria-ws
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: ${JWKS_URI_APP_PORTARIA}
+      client:
+        registration:
+          sso-catraca-ws:
+            client-id: ${CLIENT_ID_KC_CATRACA_WS}
+            client-secret: ${CLIENT_SECRET_KC_CATRACA_WS}
+            client-authentication-method: ${AUTH_METHOD_KC_CATRACA_WS}
+            authorization-grant-type: ${GRANT_TYPE_KC_CATRACA_WS}
+            provider: sso-catraca-ws-provider
+          sso-portaria:
+            client-id: ${CLIENT_ID_KC_PORTARIA}
+            client-secret: ${CLIENT_SECRET_KC_PORTARIA}
+            client-authentication-method: ${AUTH_METHOD_KC_PORTARIA}
+            authorization-grant-type: ${GRANT_TYPE_KC_PORTARIA}
+            provider: sso-portaria-provider
+        provider:
+          sso-catraca-ws-provider:
+            issuer-uri: ${ISSUER_URI_KC_CATRACA_WS}
+          sso-portaria-provider:
+            issuer-uri: ${ISSUER_URI_KC_PORTARIA}
+
+app-catraca:
+  url: ${URL_CATRACAS_WS}
+  application-id: '@project.artifactId@'
+  application-version: '@project.version@'
+
+admin-portaria.url: ${URL_KC_PORTARIA}
+swagger:
+  openapi:
+    base-url: http://localhost:8080${server.servlet.context-path}
+    token-url: ${URL_KC_PORTARIA}
+    authorization-url: ${AUTH_URL_KC_PORTARIA}
+springdoc.swagger-ui:
+  #path: /portaria/api
+  persistAuthorization: true
+  oauth2RedirectUrl: http://localhost:8080/portaria/api/swagger-ui/oauth2-redirect.html
+  oauth:
+    client-id: ${CLIENT_ID_KC_PORTARIA}
+    scopeSeparator: " "

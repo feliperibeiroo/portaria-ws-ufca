@@ -4,7 +4,7 @@ Este é o repositório do backend do App Portaria.
 
 # Arquitetura
 
-![Arquitetura](./arquitetura.png)
+![Arquitetura](./images/arquitetura.png)
 
 # Pré-requisitos
 
@@ -31,6 +31,26 @@ Este é o repositório do backend do App Portaria.
 - AUTH_URL_KC_PORTARIA: Auth URL do realm do Keycloak do App Portaria.
 - CLIENT_ID_KC_PORTARIA: Client ID do cliente do Keycloak do App Portaria.
 
+# Permissões no Keycloak
+
+As permissões de cada usuário na aplicação ficam registradas nos atributos do usuário no seguinte padrão:
+
+| Nome do atributo  | Valor                       | Descrição                                                                |
+|-------------------|-----------------------------|--------------------------------------------------------------------------|
+| EMP_<NRO_EMPRESA> | active                      | Informa que o usuário tem permissão para gerar QR Code para esta empresa |
+| ADMIN_PERMISSIONS | \<PERMISSION>:<NRO_EMPRESA> | Informa as permissões que o usuário tem para aquela empresa.             |
+
+![Permissões Keycloak](images/permissoes_keycloak.png)
+
+Permissões: 
+- QUERY_COLAB: listar usuários
+- QUERY_VISIT: listar visitas
+
+Foi escolhida a abordagem de atributos pela possibilidade de filtrar usuários de uma empresa via REST, evitando trazer todos os usuário para o backend de forma desnecessária, 
+conforme descrito na documentação do Keycloak.
+
+![Documentação Keycloak GET Users](images/keycloak_doc_user.png)
+
 # Rodar o projeto localmente
 
 - Definir os valores das variáveis de ambiente;
@@ -41,6 +61,6 @@ Este é o repositório do backend do App Portaria.
 
 # Swagger
 
-A documentação do Swagger pode ser consultada através do link:
+Após rodar o projeto localmente, a documentação do Swagger pode ser consultada através do link:
 
 http://localhost:8080/portaria/api/swagger-ui/index.html
